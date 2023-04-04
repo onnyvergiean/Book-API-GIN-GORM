@@ -10,6 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
+//
 type CreateBookInput struct {
 	Title string `json:"title" binding:"required"`
 	Author string `json:"author" binding:"required"`
@@ -20,6 +21,16 @@ type UpdateBookInput struct {
 	Author string `json:"author"`
 }
 
+// CreteBook godoc
+// @Summary Post a book for the given id
+// @Description Post details of a book corresponding to the given id
+// @Tags book
+// @Accept  json
+// @Produce  json
+// @Param models.Book body CreateBookInput true "Create Book"
+// @Success 200 {object} models.Book
+// @Failure 400 {object} string
+// @Router /books [post]
 func CreateBook(ctx *gin.Context){
 	var input CreateBookInput
 	db := database.GetDB()
@@ -42,7 +53,15 @@ func CreateBook(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, newBook)
 }
 
-
+// GetBooks godoc
+// @Summary Get details
+// @Description Get details of all books
+// @Tags book
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} []models.Book
+// @Failure 400 {object} string
+// @Router /books [get]
 func GetBooks(ctx *gin.Context){
 	var books []models.Book
 	db := database.GetDB()
@@ -50,6 +69,16 @@ func GetBooks(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, books)
 }
 
+// GetBook godoc
+// @Summary Get details of a book fot the given id
+// @Description Get details of a book corresponding to the given id
+// @Tags book
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Book ID"
+// @Success 200 {object} models.Book
+// @Failure 400 {object} string
+// @Router /books/{id} [get]
 func GetBook(ctx *gin.Context){
 	var book models.Book
 	db := database.GetDB()
@@ -66,6 +95,17 @@ func GetBook(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, book)
 }
 
+// UpdateBook godoc
+// @Summary Update details of a book for the given id
+// @Description Update details of a book corresponding to the given id
+// @Tags book
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Book ID"
+// @Param models.Book body UpdateBookInput true "Update Book"
+// @Success 200 {object} models.Book
+// @Failure 400 {object} string
+// @Router /books/{id} [put]
 func UpdateBook(ctx *gin.Context){
 	var book models.Book
 	var input UpdateBookInput
@@ -105,6 +145,16 @@ func UpdateBook(ctx *gin.Context){
 
 }
 
+// DeleteBook godoc
+// @Summary Delete a book for the given id
+// @Description Delete details of a book corresponding to the given id
+// @Tags book
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Book ID"
+// @Success 200 {object} string
+// @Failure 400 {object} string
+// @Router /books/{id} [delete]
 func DeleteBook(ctx *gin.Context){
 	var book models.Book
 	db := database.GetDB()
